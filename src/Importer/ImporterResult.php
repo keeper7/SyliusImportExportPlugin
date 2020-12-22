@@ -28,8 +28,8 @@ final class ImporterResult implements ImportResultLoggerInterface
     /** @var StopwatchEvent */
     private $stopWatchEvent;
 
-    /** @var string */
-    private $message;
+    /** @var array  */
+    private  $messages = [];
 
     public function __construct(
         Stopwatch $stopwatch,
@@ -96,18 +96,34 @@ final class ImporterResult implements ImportResultLoggerInterface
         return $this->stopWatchEvent->getDuration();
     }
 
-    public function setMessage(string $message): void
-    {
-        $this->message = $message;
-    }
-
-    public function getMessage(): ?string
-    {
-        return $this->message;
-    }
-
     public function getLogger(): LoggerInterface
     {
         return $this->logger;
     }
+
+    /**
+     * @return array
+     */
+    public function getMessages(): array {
+        return $this->messages;
+    }
+
+    /**
+     * @param array $messages
+     */
+    public function setMessages(array $messages): void {
+        $this->messages = $messages;
+    }
+
+    /**
+     * @param string $message
+     */
+    public function addMessage(string $message): void {
+        $this->messages[] = $message;
+    }
+
+    public function hasMessages(): bool {
+        return count($this->messages) > 0;
+    }
+
 }

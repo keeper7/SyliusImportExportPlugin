@@ -69,6 +69,11 @@ final class ImportDataController
                     $form->get('format')->getData(),
                     $form->get('file')->getData()
                 );
+            } catch (ImporterException $exception) {
+                $this->flashBag->add('error', $exception->getMessage());
+                foreach ($exception->getOptions() as $option) {
+                    $this->flashBag->add('error', $option);
+                }
             } catch (\Throwable $exception) {
                 $this->flashBag->add('error', $exception->getMessage());
             }
@@ -108,8 +113,13 @@ final class ImportDataController
 
         $this->flashBag->add('success', $message);
 
-        if ($result->getMessage() !== null) {
-            throw new ImporterException($result->getMessage());
+        if ($result->hasMessages()) {
+            throw new ImporterException(
+                'Error',
+                0,
+                null,
+                $result->getMessages()
+            );
         }
     }
 }

@@ -8,9 +8,13 @@ use Psr\Log\LoggerInterface;
 
 interface ImportResultLoggerAwareInterface
 {
-    public function setMessage(string $message): void;
+    public function getMessages(): array;
 
-    public function getMessage(): ?string;
+    public function setMessages(array $messages): void;
+
+    public function addMessage(string $message): void;
+
+    public function hasMessages(): bool;
 
     public function getLogger(): LoggerInterface;
 }
