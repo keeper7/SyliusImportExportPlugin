@@ -87,8 +87,8 @@ class ResourceImporter implements ImporterInterface
                 $this->batchCount = 0;
             }
         } catch (ItemIncompleteException $e) {
-            $this->result->addMessage($e->getMessage());
-            $this->result->getLogger()->critical($e->getMessage());
+            $this->result->addMessage(sprintf('Row: %s - %s', $i, $e->getMessage()));
+            $this->result->getLogger()->critical(sprintf('Row: %s - %s', $i, $e->getMessage()));
             if ($this->failOnIncomplete) {
                 $this->result->failed($i);
                 if ($this->stopOnFailure) {
@@ -99,8 +99,8 @@ class ResourceImporter implements ImporterInterface
             }
         } catch (ImporterException $e) {
             $this->result->failed($i);
-            $this->result->addMessage($e->getMessage());
-            $this->result->getLogger()->critical($e->getMessage());
+            $this->result->addMessage(sprintf('Row: %s - %s', $i, $e->getMessage()));
+            $this->result->getLogger()->critical(sprintf('Row: %s - %s', $i, $e->getMessage()));
             if ($this->stopOnFailure) {
                 return true;
             }

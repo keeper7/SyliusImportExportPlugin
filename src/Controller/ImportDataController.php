@@ -70,7 +70,10 @@ final class ImportDataController
                     $form->get('file')->getData()
                 );
             } catch (ImporterException $exception) {
-                $this->flashBag->add('error', $exception->getMessage());
+                if ($exception->getMessage() !== '') {
+                    $this->flashBag->add('error', $exception->getMessage());
+                }
+
                 foreach ($exception->getOptions() as $option) {
                     $this->flashBag->add('error', $option);
                 }
@@ -115,7 +118,7 @@ final class ImportDataController
 
         if ($result->hasMessages()) {
             throw new ImporterException(
-                'Error',
+                '',
                 0,
                 null,
                 $result->getMessages()
